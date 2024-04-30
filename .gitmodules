@@ -1,0 +1,3 @@
+[submodule "1_Diseño_De_Base_De_Datos/inventarios"]
+	path = 1_Diseño_De_Base_De_Datos/inventarios
+	url = https://github.com/JovirEc/inventarios.git
