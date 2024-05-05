@@ -32,7 +32,7 @@ public class ProductosBDD {
 					+ "where prod.udm = udm.codigo_udm "
 					+ "and prod.categoria = cat.codigo_cat "
 					+ "and upper (prod.nombre) like ?");
-			ps.setString(1, subcadena);
+			ps.setString(1, "%"+subcadena.toUpperCase()+"%");
 			
 			rs = ps.executeQuery();
 			
