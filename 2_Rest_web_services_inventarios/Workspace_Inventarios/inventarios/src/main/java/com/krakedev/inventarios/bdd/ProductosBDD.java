@@ -82,9 +82,35 @@ public class ProductosBDD {
 		return productos;
 
 	}
-
 	
-	
+	public void insertar(Producto producto) throws KrakeDevException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		try {
+			con = ConexionBDD.obtenerConexion();
+			ps = con.prepareStatement("insert into productos (nombre,udm,precio_venta,tiene_iva,coste,categoria,stock) "
+					+ "values ( ? , ? , ? , ? , ? , ? , ?)");
+			
+			ps.setString(1, producto.getNombre());
+			ps.setString(2, producto.getUnidadMedida().getCodigoUdm());
+			ps.setBigDecimal(3, producto.getPrecioVenta());
+			ps.setBoolean(4, producto.isTieneIva());
+			ps.setBigDecimal(5, producto.getCoste());
+			ps.setInt(6, producto.getCategoria().getCodigoCat());
+			ps.setInt(7, producto.getStock());
+			
+			ps.executeUpdate();
 
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			throw e;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakeDevException("Error al insertar en base de datos. Detalles: "+e.getMessage());
+			
+		}
+		
+	}
 	
 }
