@@ -1,5 +1,6 @@
 package com.krakedev.inventarios.entidades;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Pedido {
@@ -8,14 +9,17 @@ public class Pedido {
 	private Proveedor proveedor;
 	private Date fecha;
 	private EstadoPedido estadoPedido;
+	private ArrayList<DetallePedido> detalles;
 	
 	//constructors
-	public Pedido(int codigoCP, Proveedor proveedor, Date fecha, EstadoPedido estadoPedido) {
+	public Pedido(int codigoCP, Proveedor proveedor, Date fecha, EstadoPedido estadoPedido,
+			ArrayList<DetallePedido> detalles) {
 		super();
 		this.codigoCP = codigoCP;
 		this.proveedor = proveedor;
 		this.fecha = fecha;
 		this.estadoPedido = estadoPedido;
+		this.detalles = detalles;
 	}
 	public Pedido() {
 		super();
@@ -46,13 +50,17 @@ public class Pedido {
 	public void setEstadoPedido(EstadoPedido estadoPedido) {
 		this.estadoPedido = estadoPedido;
 	}
+	public ArrayList<DetallePedido> getDetalles() {
+		return detalles;
+	}
+	public void setDetalles(ArrayList<DetallePedido> detalles) {
+		this.detalles = detalles;
+	}
 	
 	@Override
 	public String toString() {
 		return "Pedido [codigoCP=" + codigoCP + ", proveedor=" + proveedor + ", fecha=" + fecha + ", estadoPedido="
 				+ estadoPedido + "]";
 	}
-	
-	
 	
 }

@@ -1,12 +1,15 @@
 package com.krakedev.inventarios.bdd;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 
+import com.krakedev.inventarios.entidades.DetallePedido;
 import com.krakedev.inventarios.entidades.Pedido;
 import com.krakedev.inventarios.excepciones.KrakeDevException;
 import com.krakedev.inventarios.utils.ConexionBDD;
@@ -17,6 +20,7 @@ public class PedidosBDD {
 		
 		Connection con = null;
 		PreparedStatement ps = null;
+		PreparedStatement psDet = null;	
 		ResultSet rsClave = null;
 		int codigoCabecera = 0;
 		
@@ -40,7 +44,25 @@ public class PedidosBDD {
 				codigoCabecera = rsClave.getInt(1);
 			}
 			
-			System.out.println("CODIGO GENERADO >>>>" + codigoCabecera);
+			ArrayList<DetallePedido> detallesPedido = pedido.getDetalles();
+			DetallePedido det;
+			for(int i = 0; i < detallesPedido.size(); i++) {
+				det = detallesPedido.get(i);
+				psDet = con.prepareStatement("insert into detalle_pedido "
+						+ "(cabecera_pedido_codigo,producto,cantidad_solicitada,cantidad_recibida,subtotal) "
+						+ "values (?,?,?,?,?)");
+				psDet.setInt(1, codigoCabecera);
+				psDet.setInt(2, det.getProducto().getCodigoProd());
+				psDet.setInt(3, det.getCantidadSolicitada());
+				psDet.setInt(4, 0);
+				
+				BigDecimal pv = det.getProducto().getPrecioVenta();
+				BigDecimal cantidad= new BigDecimal(det.getCantidadSolicitada());
+				BigDecimal subtotal = pv.multiply(cantidad);
+				psDet.setBigDecimal(5, subtotal);
+				
+				psDet.executeUpdate();
+			}
 			
 			
 		} catch (KrakeDevException e) {
