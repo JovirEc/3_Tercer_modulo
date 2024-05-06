@@ -74,5 +74,29 @@ public class PedidosBDD {
 		}
 		
 	}
+	
+	public void recibir(Pedido pedido) throws KrakeDevException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = ConexionBDD.obtenerConexion();
+			ps = con.prepareStatement("");
+			
+			
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new KrakeDevException ("Error al actualizar. Detalles: "+e.getMessage());
+		}
+		
+	}
 
 }
+
+//update cabecera_pedido set estado = 'S' where codigo = 7
+
+/*update detalle_pedido set cantidad_recibida = 40, subtotal = 20
+where codigo = 5 */
