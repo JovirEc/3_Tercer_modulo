@@ -78,12 +78,36 @@ public class PedidosBDD {
 	public void recibir(Pedido pedido) throws KrakeDevException {
 		Connection con = null;
 		PreparedStatement ps = null;
+		PreparedStatement psDetalle = null;
+		ArrayList<DetallePedido> detallesPedido;
 		
 		try {
 			con = ConexionBDD.obtenerConexion();
-			ps = con.prepareStatement("");
+			ps = con.prepareStatement("update cabecera_pedido set estado = 'R' "
+					+ "where codigo_cp = ?");
+			ps.setInt(1, pedido.getCodigoCP());
 			
+			ps.executeUpdate();
 			
+			detallesPedido = pedido.getDetalles();
+			
+			for (int i = 0; i < detallesPedido.size() ; i++) {
+				
+				DetallePedido detalleX = detallesPedido.get(i);
+				
+				psDetalle = con.prepareStatement("update detalle_pedido set cantidad_recibida = ?, subtotal = ? "
+						+ "where codigo_dp = ?");
+				psDetalle.setInt(1, detalleX.getCantidadRecibida());
+				
+				BigDecimal precioVentaX = detalleX.getProducto().getPrecioVenta();
+				BigDecimal cantidad = new BigDecimal(detalleX.getCantidadRecibida());
+				BigDecimal newPrecioVenta = precioVentaX.multiply(cantidad);
+				
+				psDetalle.setBigDecimal(2, newPrecioVenta);
+				psDetalle.setInt(3, detalleX.getCodigoDP());
+				psDetalle.executeUpdate();
+			}
+
 		} catch (KrakeDevException e) {
 			e.printStackTrace();
 			throw e;
@@ -95,8 +119,3 @@ public class PedidosBDD {
 	}
 
 }
-
-//update cabecera_pedido set estado = 'S' where codigo = 7
-
-/*update detalle_pedido set cantidad_recibida = 40, subtotal = 20
-where codigo = 5 */
