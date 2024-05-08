@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -79,6 +80,7 @@ public class PedidosBDD {
 		Connection con = null;
 		PreparedStatement ps = null;
 		PreparedStatement psDetalle = null;
+		PreparedStatement psHS = null;
 		ArrayList<DetallePedido> detallesPedido;
 		
 		try {
@@ -106,6 +108,19 @@ public class PedidosBDD {
 				psDetalle.setBigDecimal(2, newPrecioVenta);
 				psDetalle.setInt(3, detalleX.getCodigoDP());
 				psDetalle.executeUpdate();
+				
+				psHS = con.prepareStatement("insert into historial_stock (fecha,referencia,producto,cantidad) "
+						+ "values (?,?,?,?)");
+				
+				Date fechaActual = new Date();
+				Timestamp nuevaFecha = new Timestamp(fechaActual.getTime());
+				psHS.setTimestamp(1, nuevaFecha);
+				psHS.setString(2, "Pedido #"+pedido.getCodigoCP());
+				psHS.setInt(3, detalleX.getProducto().getCodigoProd());
+				psHS.setInt(4, detalleX.getCantidadRecibida());
+				
+				psHS.executeUpdate();
+				
 			}
 
 		} catch (KrakeDevException e) {
