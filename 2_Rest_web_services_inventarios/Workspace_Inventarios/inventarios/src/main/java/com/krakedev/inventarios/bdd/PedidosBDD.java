@@ -39,11 +39,12 @@ public class PedidosBDD {
 			
 			ps.executeUpdate();
 			
+			//******OBTENER CODIGO*******//
 			rsClave = ps.getGeneratedKeys();
-			
 			if(rsClave.next()) {
 				codigoCabecera = rsClave.getInt(1);
 			}
+			//***************************//
 			
 			ArrayList<DetallePedido> detallesPedido = pedido.getDetalles();
 			DetallePedido det;

@@ -22,6 +22,8 @@ public class VentasBDD {
 		Connection con = null;
 		PreparedStatement psVenta = null;
 		PreparedStatement psDetalles = null;
+		PreparedStatement psVentaUpdate = null;
+		PreparedStatement psStock = null;
 		ResultSet rsCV = null;
 		
 		int codigoCV = 0;
@@ -49,7 +51,8 @@ public class VentasBDD {
 				codigoCV = rsCV.getInt(1);
 			}
 			//*************************//
-		//DETALLES VENTAS
+			
+		//DETALLES VENTAS & HISTORIAL STOCK
 			detallesVentas = venta.getDetallesVentas();
 			
 			for(int i = 0; i < detallesVentas.size(); i++) {
@@ -76,15 +79,32 @@ public class VentasBDD {
 						totalConIva = subtotal;
 					}
 				psDetalles.setBigDecimal(6, totalConIva);
-				
-				sumaTotalSinIva = sumaTotalSinIva.add(subtotal);
-				sumaIva = sumaIva.add(cantidadIva);
-				sumaTotalConIva = sumaTotalConIva.add(totalConIva);
-				
+				//** Sumas de cabecera **//
+					sumaTotalSinIva = sumaTotalSinIva.add(subtotal);
+					sumaIva = sumaIva.add(cantidadIva);
+					sumaTotalConIva = sumaTotalConIva.add(totalConIva);
+				//** fin suma de cabecera **//
 				psDetalles.executeUpdate();
-					
+				
+		//HISTORIAL STOCK
+				psStock = con.prepareStatement("insert into historial_stock (fecha,referencia,producto,cantidad) "
+						+ "values ( ?,?,?,? )");
+				psStock.setTimestamp(1, fechaSQL);
+				psStock.setString(2, "Venta #"+codigoCV);
+				psStock.setInt(3, detalleX.getProducto().getCodigoProd());
+				int cantidadVenta = (detalleX.getCantidad()*(-1));
+				psStock.setInt(4, cantidadVenta);
+				psStock.executeUpdate();
+				
 			}
-			
+		//ACTUALIZAR CABECERA
+			psVentaUpdate = con.prepareStatement("update cabecera_venta "
+					+ "set total_sin_iva = ? , iva = ? , total = ? where codigo_cv = ? ");
+			psVentaUpdate.setBigDecimal(1, sumaTotalSinIva);
+			psVentaUpdate.setBigDecimal(2, sumaIva);
+			psVentaUpdate.setBigDecimal(3, sumaTotalConIva);
+			psVentaUpdate.setInt(4, codigoCV);
+			psVentaUpdate.executeUpdate();
 			
 			
 		} catch (KrakeDevException e) {
