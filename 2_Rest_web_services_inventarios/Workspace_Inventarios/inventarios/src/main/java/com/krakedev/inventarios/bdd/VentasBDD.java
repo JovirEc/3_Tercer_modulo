@@ -26,6 +26,7 @@ public class VentasBDD {
 		PreparedStatement psStock = null;
 		ResultSet rsCV = null;
 		
+		
 		int codigoCV = 0;
 		ArrayList<DetalleVenta> detallesVentas;
 		BigDecimal sumaTotalSinIva = BigDecimal.ZERO;
@@ -57,6 +58,7 @@ public class VentasBDD {
 			
 			for(int i = 0; i < detallesVentas.size(); i++) {
 				DetalleVenta detalleX = detallesVentas.get(i);
+				detalleX.setPrecioVenta(detalleX.getProducto().getPrecioVenta());
 				BigDecimal subtotal;
 				BigDecimal iva;
 				BigDecimal cantidadIva = BigDecimal.ZERO;
