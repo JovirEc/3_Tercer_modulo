@@ -8,14 +8,12 @@ public class Venta {
 
 	private int codigoCV;
 	private Date fecha;
-	private BigDecimal totalSinIva;
-	private BigDecimal iva;
-	private BigDecimal total;
+	private BigDecimal totalSinIva = BigDecimal.ZERO;
+	private BigDecimal iva = BigDecimal.ZERO;
+	private BigDecimal total = BigDecimal.ZERO;
 	private ArrayList<DetalleVenta> detallesVentas;
 	
 	//CONSTRUCTORS
-
-	
 	
 	public Venta() {
 		super();
