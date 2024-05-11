@@ -113,4 +113,21 @@ public class ProductosBDD {
 		
 	}
 	
+	public void actualizar(Producto producto) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		try {
+			con = ConexionBDD.obtenerConexion();
+			ps = con.prepareStatement("update productos set nombre = ?, udm = ?, precio_venta = ?, tiene_iva = ?, coste = ?, categoria = ?, stock = ?\r\n"
+					+ "where codigo_prod = ?");
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+	
 }
