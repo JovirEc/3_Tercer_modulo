@@ -4,7 +4,7 @@ public class Categoria {
 	
 	private int codigoCat;
 	private String nombre;
-	private Categoria categoriaPadre;
+	private Categoria categoriaPadre = null;
 	
 	//constructors
 	public Categoria(int codigoCat, String nombre, Categoria categoriaPadre) {
