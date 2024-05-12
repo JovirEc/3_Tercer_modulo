@@ -70,6 +70,24 @@ public class ServiciosProductos {
 		}
 	}
 	
+	
+	@Path("buscarProducto/{codigoProducto}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response buscarProducto(@PathParam("codigoProducto") int codigo) {
+		ProductosBDD prodBDD = new ProductosBDD();
+		Producto producto = null;
+		
+		try {
+			producto = prodBDD.buscarProducto(codigo);
+			return Response.ok(producto).build();
+		} catch (KrakeDevException e) {
+			e.printStackTrace();
+			return Response.serverError().build();
+		}
+
+	}
+	
 }
 
 

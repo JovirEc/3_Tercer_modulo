@@ -13,6 +13,12 @@ public class Categoria {
 		this.nombre = nombre;
 		this.categoriaPadre = categoriaPadre;
 	}
+	
+	public Categoria(int codigoCat) {
+		super();
+		this.codigoCat = codigoCat;
+	}
+	
 	public Categoria() {
 		super();
 	}

@@ -14,12 +14,17 @@ public class UnidadDeMedida {
 		this.categoriaUdm = categoriaUdm;
 	}
 	
+	public UnidadDeMedida(String codigoUdm) {
+		super();
+		this.codigoUdm = codigoUdm;
+	}
+	
 	public UnidadDeMedida() {
 		super();
 	}
 	
 	//getters setters
-	
+
 	public String getCodigoUdm() {
 		return codigoUdm;
 	}
