@@ -20,9 +20,16 @@ public class Proveedor {
 		this.correo = correo;
 		this.direccion = direccion;
 	}
+	
+	public Proveedor(String identificador) {
+		super();
+		this.identificador = identificador;
+	}
+	
 	public Proveedor() {
 		super();
 	}
+	
 	
 	//getters setters
 	public String getIdentificador() {

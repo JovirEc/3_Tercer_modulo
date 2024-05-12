@@ -21,6 +21,10 @@ public class Pedido {
 		this.estadoPedido = estadoPedido;
 		this.detalles = detalles;
 	}
+	public Pedido(int codigoCP) {
+		super();
+		this.codigoCP = codigoCP;
+	}
 	public Pedido() {
 		super();
 	}

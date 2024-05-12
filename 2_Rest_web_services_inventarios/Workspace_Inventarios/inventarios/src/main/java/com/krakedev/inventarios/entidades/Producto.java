@@ -27,6 +27,11 @@ public class Producto {
 		this.stock = stock;
 	}
 	
+	public Producto(int codigoProd) {
+		super();
+		this.codigoProd = codigoProd;
+	}
+	
 	public Producto() {
 		super();
 	}

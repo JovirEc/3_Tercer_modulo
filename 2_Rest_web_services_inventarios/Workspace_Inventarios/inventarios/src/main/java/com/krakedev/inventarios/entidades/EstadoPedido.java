@@ -11,6 +11,10 @@ public class EstadoPedido {
 		this.codigoEP = codigoEP;
 		this.descripcionEP = descripcionEP;
 	}
+	public EstadoPedido(String codigoEP) {
+		super();
+		this.codigoEP = codigoEP;
+	}
 	public EstadoPedido() {
 		super();
 	}
