@@ -45,7 +45,7 @@ public class CategoriasBDD {
 		PreparedStatement ps;
 		try {
 			con = ConexionBDD.obtenerConexion();
-			ps = con.prepareStatement("update categorias set nombre = ? , set categoria_padre = ? ; "
+			ps = con.prepareStatement("update categorias set nombre = ? , categoria_padre = ? "
 					+ "where codigo_cat = ?");
 			
 			ps.setString(1, categoria.getNombre());
@@ -70,7 +70,7 @@ public class CategoriasBDD {
 		
 	}
 	
-	public ArrayList<Categoria> recuperar(){
+	public ArrayList<Categoria> recuperar() throws KrakeDevException{
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -98,14 +98,11 @@ public class CategoriasBDD {
 			
 		} catch (KrakeDevException e) {
 			e.printStackTrace();
+			throw e;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new KrakeDevException("Error al recuperar. Detalles: "+e.getMessage());
 		}
-		
-		
-		
-		
-		return null;
+		return listaCategorias;
 	}
 }
