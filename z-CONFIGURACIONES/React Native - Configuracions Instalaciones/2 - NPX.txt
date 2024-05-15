@@ -1,0 +1,8 @@
+1.- Escribir node -v para comprobar que está instalado Nodejs
+2.- Dentro de la carpeta donde queremos crear nuestro proyecto, abrimos el cmd y escribimos el comando:
+	npx create-expo-app NombreProyecto
+3.- Si sale algún error, desinstalar el nodejs desde el instalador de programas, luego ir a appData y tanto en Roaming como en Local, borrar cualquier carpeta de node, verificar antes que no exista un desinstalador. Por último reiniciar y volver a instalar. Si no se ejecuta el node -v, reinstalar en modo Reparar, e intentar de nuevo.
+4.- Volver a probar el npx y esperar a que se cree el proyecto (Es normal que se quede en "npm installing", seguir esperando)
+
+5.-Ejeutar npx expo start y se creará un codigo qr.
+

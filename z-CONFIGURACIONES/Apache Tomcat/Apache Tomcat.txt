@@ -1,0 +1,82 @@
+1.- Para que se pueda conectar java con tomcat y este a la base de datos (ConexionBDD), hay que configurar el datasource. Para esto nos vamos a la carpeta Apache
+2.-Entramos a "conf" y luego a server xml.
+
+CAMBIOS EN SERVER XML: 
+	1.-Ubicarse en <GlobalNamingResources>
+	2.-Agregar un nuevo <Resource> (sin borrar ninguno) con la siguiente informaciónc: (copiar y pegar)
+	
+	<Resource name="jdbc/ConexionInventario" <!-- Aquí en ConexionInventario colocar el nombre que se le desea colocar a la nueva conexion -->
+			  global="jdbc/ConexionInventario"  <!-- Copiar el mismo nombre creado arriba -->
+			  auth="Container" 
+			  type="javax.sql.DataSource" 
+			  driverClassName="org.postgresql.Driver" 
+			  url="jdbc:postgresql://localhost:5432/inventario" <!-- Aquí colocar el numero de puerto y el nombre que tiene mi base de datos en postgres -->
+			  username="postgres" <!-- El username configurado en mi base de datos -->
+			  password="KrakeDev2024" <!-- El password configurado en mi base de datos -->
+			  
+			  maxActive="100" 
+			  maxIdle="20" 
+			  minIdle="5" 
+			  maxWait="10000"/>
+CAMBIOS EN CONTEXT.XML:
+
+	1.- Ubicarse en <Context> ... <ResourceLink>. Si no existe Resourcelink, seguir con el paso 2.
+	2.- Agregar un nuevo ResourceLink (no borrar los otros si no es necesario) con la siguiente información:
+
+		<ResourceLink 	name="jdbc/ConexionInventario"
+				global="jdbc/ConexionInventario"
+				auth="Container"
+				type="javax.sql.DataSource" />	
+	
+	3.- En la primera y segunda línea, cambiar "ConexionInventario" por el mismo nombre que se colocó en el <Resource> de server.xml
+
+CAMBIOS EN JAVA:
+	1.-Nos ubicamos en nuestra clase ConexionBDD
+	2.-En el (DataSource)..."java:/comp/env/jdbc/ConexionInventario", cambiar "ConexionInventario" por el mismo nombre que se le puso en los dos archivos anteriores.
+	3.- Si se desea verificar que está todo bien, solo realizar una Maven Instal al proyecto.
+	4.- Ubicarse en el archivo web.xml ubicado en src y copiar dentro de <web-app> lo siguiente:
+	
+		<servlet>
+   			<servlet-name>MiServlet</servlet-name> <!-- Cualquier nombre -->
+   			<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+   			<init-param>
+   				<param-name>jersey.config.server.provider.packages</param-name>
+   				<param-value>com.krakedev.servicios</param-value> <!--El paquete java donde estarán los servicios que voy a usar -->
+   			</init-param>
+   		</servlet>
+   		<servlet-mapping>
+   			<servlet-name>MiServlet</servlet-name> <!-- Cualquier nombre, pero debe ser el mismo que se puso en el servlet de arriba-->
+   			<url-pattern>/rest/*</url-pattern> <!-- Patrón con el que se encontrará el servicio -->
+   		</servlet-mapping>
+
+CAMBIOS EN EL POM:
+
+	Agregar estas dependencias:
+	
+	<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.1.1</version>
+	</dependency>
+	<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+			<version>2.29.1</version>
+	</dependency>
+	<dependency>
+			<groupId>org.glassfish.jersey.inject</groupId>
+			<artifactId>jersey-hk2</artifactId>
+			<version>2.29.1</version>
+	</dependency>
+	<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+			<version>2.25</version>
+	</dependency>
+	<dependency>
+			<groupId>org.glassfish.jersey.bundles.repackaged</groupId>
+			<artifactId>jersey-guava</artifactId>
+			<version>2.6</version>
+	</dependency>
+	
+	
