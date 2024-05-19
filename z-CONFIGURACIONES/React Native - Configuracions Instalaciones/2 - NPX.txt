@@ -5,4 +5,3 @@
 4.- Volver a probar el npx y esperar a que se cree el proyecto (Es normal que se quede en "npm installing", seguir esperando)
 
 5.-Ejeutar npx expo start y se creará un codigo qr.
-

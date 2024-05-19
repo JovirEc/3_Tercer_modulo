@@ -27,7 +27,6 @@ export default function HomeScreen() {
   const [vidas, setVidas] = useState(5);
 
   const restarVida = () => {
-
     if(vidas > 1){
       setVidas(vidas-1);
     }else if(vidas == 1){
@@ -41,6 +40,11 @@ export default function HomeScreen() {
   const premiarVidas = ()=>{
     setVidas (vidas + 3);
   }
+
+  /*  <ThemedText>CONTADOR VIDAS: {vidas} </ThemedText>
+      <Button title='PERDER VIDA' onPress={restarVida}></Button>
+      <Button title='PREMIAR' onPress={premiarVidas}></Button>
+  */
 
   return (
     
