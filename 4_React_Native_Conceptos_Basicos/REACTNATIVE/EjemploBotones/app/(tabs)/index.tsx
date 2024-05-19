@@ -1,17 +1,15 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet, Platform, Button, Alert } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Button,Alert } from 'react-native';
 
 export default function HomeScreen() {
 
-  const despedirse = () => {
-    Alert.alert("Mensaje","Adiosito");
+  const finSesion = () => {
+    Alert.alert("Finalizar","Su sesión ha finalizado")
   }
-
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -22,31 +20,17 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Bienvenido! Joel Villamar</ThemedText>
+        <ThemedText type="title">Reto 20</ThemedText>
         <HelloWave />
       </ThemedView>
-      <Button 
-        title='BOTÓN'
-        onPress = {()=>{
-          Alert.alert("Mensaje","Hola desde el botón");
-        }}>
-      </Button>
-      <Button 
-        title = "Adios"
-        onPress={
-          despedirse
-        }>
-      </Button>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+        <ThemedText type="subtitle">Botones</ThemedText>
+        <Button title='INICIAR' onPress={() => {
+          Alert.alert("Iniciado","Su sesion ha iniciado")
+        }}></Button>
+        <Button title='FINALIZAR' onPress={finSesion}></Button>
       </ThemedView>
+
     </ParallaxScrollView>
   );
 }
