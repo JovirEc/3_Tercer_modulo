@@ -1,0 +1,43 @@
+1.- Crear proyecto con:
+	expo init MiPRoyecto
+	-blank
+
+	*Probar con " npx create-expo-app --template"
+
+-------------------------------------------------------------------------------------------------
+
+2.-Este comando debe ejecutarse dentro de la carpeta del proyecto app a través del cmd.
+
+	npm install @react-navigation/native
+
+3.- Luego, instalar las dependencias con el siguiente comando:
+	
+	npx expo install react-native-screens react-native-safe-area-context
+
+4.- Luego, instalar el native stack navigator: (El proyecto no debe estar ejecutándose)
+	
+	npm install @react-navigation/native-stack
+
+------------------------------------------------------------------------------------------------
+
+5.- Ejecutar npm start
+
+------------------------------------------------------------------------------------------------
+
+** * * * * * * * * * * * * * * * * *   CÓDIGO FUENTE   * * * * * * * * * * * * * * * * * * * * * 
+
+6.- Dentro del código de App.js, se debe importar la libreria de la siguiente forma:
+
+	Pantalla Principal:    import {NavigationContainer} from '@react-navigation/native'
+
+7.- Importar la libreria con: 
+
+	import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
+8.- Detro del codigo importar los js de las pantallas, a la pantalla principal App.js con export e import.
+
+	Screen1 :	       export const Screen1 =()=>{}
+	Pantalla principal:    import { Screen1 } from './app/screens/ArchivoScreen1.js'
+
+------------------------------------------------------------------------------------------------
+
