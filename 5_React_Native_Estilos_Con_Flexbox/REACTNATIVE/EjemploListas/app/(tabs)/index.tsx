@@ -1,4 +1,4 @@
-import {Text,View,Button,TextInput,StyleSheet, FlatList} from 'react-native';
+import {Text,View,Button,TextInput,StyleSheet, FlatList, Alert} from 'react-native';
 import React,{useState} from 'react';
 
 let personas = [
@@ -6,35 +6,85 @@ let personas = [
   {nombre:'Amber',apellido:'Flores',cedula:'0913467472'},
   {nombre:'Peter',apellido:'Parker',cedula:'0913467146'},
 ]
-let ItemPersona = (props)=>{
-  return (<View style = {styles.itemPersona}>
-    <View style={styles.itemIndice}>
-      <Text style={styles.textoPrincipal}>{props.indice}</Text>
-    </View>
-    <View style={styles.itemContenido}>
-      <Text style={styles.textoPrincipal}>{props.persona.nombre} {props.persona.apellido}</Text>
-      <Text style={styles.textoSecundario}>{props.persona.cedula}</Text>
-    </View>
-   </View>)
-}
-export default function App(){
-  
-  let limpiar=()=>{
-    setTxtCedula(null);
-    setTxtNombre(null);
-    setTxtApellido(null)
-  }
 
-  let guardarPersona=()=>{
-    let persona = {nombre: txtNombre, apellido: txtApellido, cedula:txtCedula}
-    personas.push(persona)
-    limpiar();
-  }
+//Indica si se está creando una nueva persona o se está modificando.
+let esNuevo = true;
+let indiceSeleccionado = -1
+
+export default function App(){
 
   const [txtCedula,setTxtCedula] = useState('')
   const [txtNombre,setTxtNombre] = useState('');
   const [txtApellido,setTxtApellido] = useState('');
+  const [numElementos,setNumElementos] = useState(personas.length)
+  
+  let limpiar=()=>{
+    setTxtCedula('');
+    setTxtNombre('');
+    setTxtApellido('')
+    esNuevo=true;
+  }
 
+  
+  let existePersona = ()=>{
+    for(let i=0;i<personas.length;i++){
+      if(personas[i].cedula == txtCedula){
+        return true;
+      }
+    }
+    return false;
+  }
+
+//Esta variable almacena el índice del arreglo del elemento seleccionado para edición.
+  let guardarPersona=()=>{
+    if(esNuevo){
+      if(existePersona()){
+        Alert.alert("INFO:","Ya existe una persona con la cedula:"+txtCedula)
+      }else{
+        let persona = {nombre: txtNombre, apellido: txtApellido, cedula:txtCedula}
+        personas.push(persona)
+      }
+    }else{
+      personas[indiceSeleccionado].nombre=txtNombre;
+      personas[indiceSeleccionado].apellido=txtApellido;
+    }
+    limpiar();
+    setNumElementos(personas.length)
+  }
+
+  let ItemPersona = (props)=>{
+    return (<View style = {styles.itemPersona}>
+      <View style={styles.itemIndice}>
+        <Text style={styles.textoPrincipal}>{props.indice}</Text>
+      </View>
+      <View style={styles.itemContenido}>
+        <Text style={styles.textoPrincipal}>{props.persona.nombre} {props.persona.apellido}</Text>
+        <Text style={styles.textoSecundario}>{props.persona.cedula}</Text>
+      </View>
+      <View style={styles.itemBotones}>
+        <Button title=' E ' color='green'
+          onPress={()=>{
+            setTxtCedula(props.persona.cedula)
+            setTxtNombre(props.persona.nombre)
+            setTxtApellido(props.persona.apellido)
+            esNuevo = false;
+            indiceSeleccionado = props.indice
+          }}
+        ></Button>
+        <Button title=' X ' color='red'
+          onPress={()=>{
+            indiceSeleccionado=props.indice;
+            personas.splice(indiceSeleccionado,1);
+            console.log("arreglo personas",personas);
+            setNumElementos(personas.length);
+          }}
+        
+        ></Button>
+      </View>
+      
+     </View>)
+     
+  }
 
   return(
     <View style = {styles.principal}>
@@ -46,6 +96,7 @@ export default function App(){
           placeholder='Ingrese su cedula'
           onChangeText={setTxtCedula}
           keyboardType='numeric'
+          editable = {esNuevo}
         />
         <TextInput
           style={styles.txt}
@@ -67,8 +118,13 @@ export default function App(){
 
         }}
         />
-        <Button title='Limpiar'/>
+        <Button title='Nuevo'
+          onPress={()=>{
+            limpiar();
+          }}
+        />
       </View>
+      <Text>Elementos: {numElementos}</Text>
       <View style={styles.areaContenido}>
         <FlatList style = {styles.listas}
         data={personas}
@@ -89,7 +145,12 @@ export default function App(){
       </View>
     </View>
   );
+
+  
+
 };
+
+
 
 const styles = StyleSheet.create({
   principal: {
@@ -145,7 +206,7 @@ const styles = StyleSheet.create({
   },
   itemContenido:{
     //backgroundColor:'darkorange',
-    flex:10,
+    flex:6,
     paddingLeft:5
   },
   txt:{
@@ -158,5 +219,12 @@ const styles = StyleSheet.create({
   areaBotones:{
     flexDirection:'row',
     justifyContent:'space-evenly'
+  },
+  itemBotones:{
+    //backgroundColor:'darkorange',
+    flex:2,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center'
   }
 })
