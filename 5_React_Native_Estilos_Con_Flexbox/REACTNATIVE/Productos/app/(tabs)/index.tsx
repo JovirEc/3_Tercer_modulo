@@ -1,4 +1,4 @@
-import {Text,View,Button,TextInput,StyleSheet,FlatList, ScrollView,Alert} from 'react-native';
+import {Text,View,Button,TextInput,StyleSheet,FlatList, ScrollView,Alert, TouchableHighlight, Modal} from 'react-native';
 import React,{useState} from 'react';
 
 let productos = [
@@ -21,7 +21,9 @@ export default function App(){
   const [inPVenta,setInPVenta] = useState('')
   const [numProductos,setNumProductos] = useState(productos.length)
   const [codigoEditable,setCodigoEditable] = useState(true)
+  const [isVisible,setIsVisible] = useState(false)
 
+  
   let limpiarNuevo = () =>{
     setInCodigo('');
     setInNombre('');
@@ -31,7 +33,7 @@ export default function App(){
     setCodigoEditable(true);
   }
 
-  let setearProducto =(propIndex: number)=>{
+  let setearProducto = propIndex=>{
     let productoX = productos[propIndex]
     setInCodigo(productoX.id);
     setInNombre(productoX.nombre);
@@ -39,11 +41,11 @@ export default function App(){
     let pCompraStr = ""+productoX.precioCompra;
     setInPCompra(pCompraStr);
     let pVentaStr = productoX.precioVenta;
-    setInPVenta(""+pVentaStr);
+    setInPVenta("$ "+pVentaStr);
     setCodigoEditable(false);
   }
 
-  let productoEsNuevo=(codigo: string)=>{
+  let productoEsNuevo= codigo=>{
     for(let i=0; i<productos.length; i++){
       let productoX = productos[i];
       if(productoX.id == codigo){
@@ -77,50 +79,57 @@ export default function App(){
       productos[indexProductoX].categoria = inCategoria
       productos[indexProductoX].precioCompra = parseFloat(inPCompra)
         let extraerPVenta = inPVenta.split('$')
-        let nuevoPVenta = parseFloat(extraerPVenta[1])
+        let obtenerPVenta = extraerPVenta[1]
+        let nuevoPVenta = parseFloat(obtenerPVenta)
       productos[indexProductoX].precioVenta= nuevoPVenta;
       limpiarNuevo();
-      //productos[indexProductoX].id= inCodigo;
     }
   }
 
-  let eliminarProducto = (propIndex: number)=>{
-    let productoX = productos[propIndex]
+  let eliminarProducto = propIndex=>{
     productos.splice(propIndex,1);
     setNumProductos(productos.length);
   }
 
-  let ItemProducto = (props) => {
+  let ItemProducto = ({indexX,itemX}) => {
     return(
     <View style={styles.producto}>
       <View style={styles.productoDatos}>
         <View style={styles.productoCodigo}>
           <View style={styles.codigoCirculo}>
-            <Text style={styles.textoCodigoProd}>{props.itemX.id}</Text>
+            <Text style={styles.textoCodigoProd}>{itemX.id}</Text>
           </View>
         </View>
         <View style={styles.productoInfo}>
-          <Text style={styles.tituloProducto}>{props.itemX.nombre}</Text>
-          <Text style={styles.categoriaProducto}>{props.itemX.categoria}</Text>
+          <Text style={styles.tituloProducto}>{itemX.nombre}</Text>
+          <Text style={styles.categoriaProducto}>{itemX.categoria}</Text>
         </View>
         <View style={styles.productoPrecio}>
           <Text style={styles.tipoPrecio}>USD</Text>
-          <Text style={styles.cantidadPrecio}>{props.itemX.precioVenta}</Text>
+          <Text style={styles.cantidadPrecio}>{itemX.precioVenta}</Text>
         </View>
       </View>
       <View style={styles.productoBotones}>
-        <Button title='  E  ' color='green'
-        onPress={()=>{
-          indexProductoX = props.indexX;
-          setearProducto(indexProductoX);
-        }}></Button>
-        <Button title='  X  ' color='#CD0000'
-        onPress={()=>{
-          indexProductoX = props.indexX;
-          eliminarProducto(indexProductoX);
-        }}></Button>
+        <TouchableHighlight
+          style={styles.touchableBotonEditar}
+          onPress={()=>{
+            indexProductoX = indexX;
+            setearProducto(indexProductoX);
+          }}>
+          <Text style={styles.touchableBotonTexto}> E </Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.touchableBotonEliminar}
+          onPress={()=>{
+            indexProductoX = indexX;
+            setIsVisible(true)
+          }}>
+          <Text style={styles.touchableBotonTexto}> X </Text>
+        </TouchableHighlight>
       </View>
     </View> 
+
+    
     )
   }
 
@@ -180,7 +189,7 @@ export default function App(){
             <Button title='NUEVO' onPress={limpiarNuevo}></Button>
           </View>
           <View style={styles.botoneraItems}>
-            <Button title='GUARDAR' onPress={()=>{guardarProducto()}}></Button>
+            <Button title='GUARDAR' onPress={guardarProducto}></Button>
           </View>
           <View style={styles.botoneraItems}>
             <Text style={styles.txtCantProd1}>PRODUCTOS:</Text>
@@ -193,21 +202,61 @@ export default function App(){
         <View style={styles.tablaProductos}>
           <FlatList
           data={productos}
-          renderItem={(productoX)=>{
-            return <ItemProducto
-                indexX = {productoX.index}
-                itemX = {productoX.item}>
-                </ItemProducto>
-          }}
-          keyExtractor={(item)=>{
-            return item.id;
-          }}
+          renderItem={({index,item})=>
+            <ItemProducto
+              indexX = {index}
+              itemX = {item}>
+            </ItemProducto>
+          }
+          keyExtractor={item=> item.id}
           ></FlatList>
         </View>
         <View style={styles.footerAutor}>
           <Text style={styles.textoFooter}>AUTOR: JOEL VILLAMAR</Text>
         </View>
       </View>
+
+      <Modal 
+        animationType='slide'
+        visible={isVisible}
+        transparent
+      >
+        <View style={styles.containerModal}>
+          <View style={styles.sombraModal}>
+            <View style={styles.ventanaModal}>
+              <View style={styles.tituloModal}>
+                <Text style={{fontSize:18,fontWeight:'bold'}}>ADVERTENCIA</Text>
+              </View>
+              <View style={styles.cuerpoModal}>
+                <Text style={{fontSize:16,textAlign:'center'}}>Se eliminará el registro de la base de datos. ¿Desea continuar?</Text>
+              </View>
+              <View style={styles.botonesModal}>
+                <TouchableHighlight
+                  style={styles.botonModalAceptar}
+                  onPress={()=>{
+                  setIsVisible(false)
+                  eliminarProducto(indexProductoX)
+                  }}>
+                  <View >
+                    <Text style={styles.textoBotonModal}>ACEPTAR</Text>
+                  </View>
+                </TouchableHighlight>
+                <TouchableHighlight
+                  style={styles.botonModalCancelar}
+                  onPress={()=>{
+                  setIsVisible(false)
+                  }}>
+                  <View style={styles.botonModalCancelar}>
+                    <Text style={styles.textoBotonModal}>CANCELAR</Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
+              
+            </View>
+          </View>
+        </View>
+      </Modal>
+
     </View>
    
   );
@@ -218,14 +267,12 @@ const styles = StyleSheet.create({
   principal: {
     flex:1,
     backgroundColor:'white',
-    //padding:20,
     paddingTop:30,
     justifyContent: 'center',
   },
     //TOP
     seccionTop:{
       flex:1,
-      //backgroundColor:'blue', //
     },
       //TITULO
       topHeader:{
@@ -278,7 +325,7 @@ const styles = StyleSheet.create({
           },
             inputDetalle:{
               flex:1,
-              backgroundColor:'white', //
+              backgroundColor:'white',
               marginVertical:5,
               borderRadius:50,
               borderWidth:1,
@@ -289,14 +336,12 @@ const styles = StyleSheet.create({
             },
       //BOTONES
       topBotonera:{
-        //backgroundColor:'black', //
         flexDirection:'row',
         justifyContent:'space-evenly',
         marginTop:1
       },
         botoneraItems:{
           flex:1,
-          //backgroundColor:'purple',
           margin:5,
           justifyContent:'center',
         },
@@ -313,12 +358,11 @@ const styles = StyleSheet.create({
     //BOT
     seccionBottom:{
       flex:1,
-      //backgroundColor:'green' //
     },
       //TABLA
       tablaProductos:{
         flex:8,
-        backgroundColor:'white' //
+        backgroundColor:'white'
       },
           producto:{
             backgroundColor:'#F7F7F7',
@@ -355,7 +399,6 @@ const styles = StyleSheet.create({
                   },
               productoInfo:{
                 flex:5,
-                //backgroundColor:'chocolate',
                 paddingLeft:5
               },
                 tituloProducto:{
@@ -384,16 +427,33 @@ const styles = StyleSheet.create({
                   fontWeight:'500',
                   marginTop:-2
                 },
-
             productoBotones:{
-              //backgroundColor:'yellow',
               flex:1,
               flexDirection:'row',
               justifyContent:'space-evenly',
               paddingBottom:9,
               paddingTop:8,
-            },
               
+            },
+              touchableBotonEditar:{
+                flex:1,
+                backgroundColor:'green',
+                justifyContent:'center',
+                alignItems:'center',
+                padding:3
+              },
+              touchableBotonEliminar:{
+                flex:1,
+                backgroundColor:'red',
+                justifyContent:'center',
+                alignItems:'center',
+                padding:3
+              },
+              touchableBotonTexto:{
+                fontSize:15,
+                color:'white',
+                
+              },
       //AUTOR
       footerAutor:{
         flex:1,
@@ -407,4 +467,63 @@ const styles = StyleSheet.create({
         fontSize:12,
         fontWeight:'bold'
       },
+
+      //MODAL
+      containerModal:{
+        backgroundColor:'rgba(0,0,0,0.0)',
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center'
+      },
+        sombraModal:{
+          backgroundColor:'rgba(0,0,0,0.4)',
+          height:'30%',
+          width:'90%',
+          borderRadius:20,
+          justifyContent:'center',
+          alignItems:'center'
+        },
+          ventanaModal:{
+            height:'85%',
+            width:'88%',
+          },
+            tituloModal:{
+              flex:2,
+              backgroundColor:'#F5F5F5',
+              borderTopLeftRadius:15,
+              borderTopRightRadius:15,
+              justifyContent:'center',
+              alignItems:'center'
+            },
+            cuerpoModal:{
+              flex:4,
+              backgroundColor:'white',
+              justifyContent:'center',
+              alignItems:'center',
+              paddingHorizontal:5
+            },
+            botonesModal:{
+              flex:2,
+              flexDirection:'row',
+
+            },
+              botonModalAceptar:{
+                flex:1,
+                backgroundColor:'#0049B2',
+                borderBottomLeftRadius:15,
+                justifyContent:'center',
+                alignItems:'center'
+              },
+              botonModalCancelar:{
+                flex:1,
+                backgroundColor:'#2B2B2B',
+                borderBottomRightRadius:15,
+                justifyContent:'center',
+                alignItems:'center'
+              },
+                textoBotonModal:{
+                  fontSize:18,
+                  color:'white',
+                  fontWeight:'bold'
+                }
 })

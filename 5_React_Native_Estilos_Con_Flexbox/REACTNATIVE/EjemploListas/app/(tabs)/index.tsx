@@ -52,28 +52,28 @@ export default function App(){
     setNumElementos(personas.length)
   }
 
-  let ItemPersona = (props)=>{
+  let ItemPersona = ({indice,persona})=>{
     return (<View style = {styles.itemPersona}>
       <View style={styles.itemIndice}>
-        <Text style={styles.textoPrincipal}>{props.indice}</Text>
+        <Text style={styles.textoPrincipal}>{indice}</Text>
       </View>
       <View style={styles.itemContenido}>
-        <Text style={styles.textoPrincipal}>{props.persona.nombre} {props.persona.apellido}</Text>
-        <Text style={styles.textoSecundario}>{props.persona.cedula}</Text>
+        <Text style={styles.textoPrincipal}>{persona.nombre} {persona.apellido}</Text>
+        <Text style={styles.textoSecundario}>{persona.cedula}</Text>
       </View>
       <View style={styles.itemBotones}>
         <Button title=' E ' color='green'
           onPress={()=>{
-            setTxtCedula(props.persona.cedula)
-            setTxtNombre(props.persona.nombre)
-            setTxtApellido(props.persona.apellido)
+            setTxtCedula(persona.cedula)
+            setTxtNombre(persona.nombre)
+            setTxtApellido(persona.apellido)
             esNuevo = false;
-            indiceSeleccionado = props.indice
+            indiceSeleccionado = indice
           }}
         ></Button>
         <Button title=' X ' color='red'
           onPress={()=>{
-            indiceSeleccionado=props.indice;
+            indiceSeleccionado=indice;
             personas.splice(indiceSeleccionado,1);
             console.log("arreglo personas",personas);
             setNumElementos(personas.length);
@@ -128,15 +128,14 @@ export default function App(){
       <View style={styles.areaContenido}>
         <FlatList style = {styles.listas}
         data={personas}
-        renderItem={(elemento)=>{
+        renderItem={({index,item})=>{
           return <ItemPersona 
-            indice = {elemento.index}
-            persona = {elemento.item}
+            indice = {index}
+            persona = {item}
             ></ItemPersona>
           }}
-        keyExtractor={(item)=>{
-          return item.cedula;
-        }}
+        keyExtractor={item=>item.cedula
+        }
         
         />
       </View>
