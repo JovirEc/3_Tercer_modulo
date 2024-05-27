@@ -3,6 +3,8 @@
 	npm install react-native-reanimated
 	npm install react-native-safe-area-context
 	npm install react-native-gesture-handler
+	
+
 
 2.- En babel.config.js agregar lo siguiente despues de presets:
 
@@ -19,6 +21,19 @@
       'react-native-reanimated/plugin'
     ]
 
+	Hasta aquí probar con el npx expo start y abriendo en el celular o navegador.
+	******************** SI DA ERROR ROJO AL ABRIRLO EN EL CELULAR ********************
+	Instalar en el cmd:
+
+	npx expo install --fix
+
+	luego: 
+	
+	npx expo install babel-plugin-module-resolver
+
+	***********************************************************************************
+
+
 3.- Colocar dentro de App.js
 
 	import "react-native-gesture-handler"
@@ -30,3 +45,6 @@
 5.- Si sigue dando error, inicilizamos de forma limpia con:
 
 	expo start --clear
+
+
+npm install react-native-reanimated@3.10.1
