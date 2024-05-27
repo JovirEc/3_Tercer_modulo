@@ -1,0 +1,32 @@
+1.- Instalar en el cmd dentro del proyecto
+	npm install @react-navigation/drawer
+	npm install react-native-reanimated
+	npm install react-native-safe-area-context
+	npm install react-native-gesture-handler
+
+2.- En babel.config.js agregar lo siguiente despues de presets:
+
+
+	presets: ['babel-preset-expo'],  //esto no va, es solo para mostrar como va la continuación
+
+	plugins: [
+      [
+        "module-resolver",
+        {
+          extensions:['.tsx','.ts','.js','.json']
+        },
+      ],
+      'react-native-reanimated/plugin'
+    ]
+
+3.- Colocar dentro de App.js
+
+	import "react-native-gesture-handler"
+
+4.- Actualizar desde el cmd para queno de errores 
+
+	expo update
+
+5.- Si sigue dando error, inicilizamos de forma limpia con:
+
+	expo start --clear
