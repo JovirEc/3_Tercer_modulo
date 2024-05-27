@@ -1,8 +1,6 @@
 1.- Crear proyecto con:
-	expo init MiPRoyecto
+	 npx create-expo-app --template
 	-blank
-
-	*Probar con " npx create-expo-app --template"
 
 -------------------------------------------------------------------------------------------------
 
@@ -18,9 +16,14 @@
 	
 	npm install @react-navigation/native-stack
 
+
 ------------------------------------------------------------------------------------------------
 
-5.- Ejecutar npm start
+Extra: Para visualizar en web:
+	
+	npx expo install react-native-web react-dom @expo/metro-runtime
+
+5.- Ejecutar npx expo start
 
 ------------------------------------------------------------------------------------------------
 

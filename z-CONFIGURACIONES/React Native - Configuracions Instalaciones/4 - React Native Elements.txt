@@ -1,0 +1,7 @@
+1.- Dentro del proyecto, en el cmd instalar librerias:
+
+	npm install @rneui/themed @rneui/base
+
+2.- Instalar los iconos
+
+	npm install react-native-vector-icons
