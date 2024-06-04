@@ -1,10 +1,15 @@
 import { View, StyleSheet } from 'react-native'
 import { Button, Text } from '@rneui/base'
 import { getAllPostsService } from '../services/TestServices'
+import { createPostService } from '../services/TestServices'
 
 
 const getAllPosts = () => {
   getAllPostsService();
+}
+
+const createPost = () => {
+  createPostService();
 }
 
 export const TestWebServices = () => {
@@ -20,6 +25,9 @@ export const TestWebServices = () => {
         />
       <Button
         title="2. Crear Post"
+        onPress={()=>{
+          createPost();
+        }}
       />
         <Button
         title="3. Actualizar Post"
