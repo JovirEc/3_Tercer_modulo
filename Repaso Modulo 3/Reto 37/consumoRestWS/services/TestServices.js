@@ -5,12 +5,12 @@ export const getAllPostsService = () => {
     .then((json) => console.log(json))
 }
 
-export const createPostService =()=>{
+export const createPostService =(post)=>{
     const config = {
         method: 'POST',
         body: JSON.stringify({
-            title:'mensaje',
-            body:'suerte en su evaluación',
+            title: post.title,
+            body: post.body,
             userId: 1
         }),
         headers:{

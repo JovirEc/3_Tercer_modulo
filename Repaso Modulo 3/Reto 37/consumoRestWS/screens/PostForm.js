@@ -8,7 +8,10 @@ export const PostForm = () => {
 
     const createPost=()=>{
         console.log("creando post "+subject+" "+message);
-        createPostService();
+        createPostService({
+            title: subject,
+            body: message
+        });
     }
     return <View style={styles.container}>
         <View style={styles.textContainer}>
