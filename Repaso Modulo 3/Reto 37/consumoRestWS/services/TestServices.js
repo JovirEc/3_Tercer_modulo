@@ -70,3 +70,21 @@ export const createFakeProductService =()=>{
     .then((response) => response.json())
     .then((json) => console.log(json))
 }
+
+export const updateFakeProductService = () => {
+    const config = {
+        method: 'PUT',
+        body: JSON.stringify({
+            id:3,
+            title:"Roma",
+            price:12.5,
+            category:"Nice",
+            description:"Handsome",
+            image:"https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+        }),
+        headers:{'Content-type':'application/json'}
+    }
+    fetch("https://fakestoreapi.com/products/3",config)
+    .then((response) => response.json())
+    .then((json) => console.log(json))
+}
