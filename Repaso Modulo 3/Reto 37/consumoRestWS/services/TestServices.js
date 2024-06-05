@@ -46,3 +46,9 @@ export const getByUserIdService = ()=>{
     .then((response)=> response.json())
     .then((json) => console.log(json))
 }
+
+export const getFakeStoreService = () =>{
+    fetch('https://fakestoreapi.com/products')
+    .then((response)=>response.json())
+    .then((json)=>console.log(json))
+}
