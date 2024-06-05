@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native'
 import { Button, Text } from '@rneui/base'
-import { getAllPostsService, createPostService, updatePostService, getByUserIdService, getFakeStoreService, createFakeProductService, updateFakeProductService } from '../services/TestServices'
+import { getAllPostsService, createPostService, updatePostService, getByUserIdService, getFakeStoreService, createFakeProductService, updateFakeProductService, getDocumentTypesService } from '../services/TestServices'
 
 const getAllPosts = () => {
   getAllPostsService();
@@ -29,6 +29,11 @@ const createFakeProducto = ()=>{
 const updateFakeProduct = () => {
   updateFakeProductService();
 }
+
+const getDocumentType = () => {
+  getDocumentTypesService();
+}
+
 export const TestWebServices = () => {
 
   return <View style={styles.container}>
@@ -69,6 +74,10 @@ export const TestWebServices = () => {
         onPress={updateFakeProduct}
       />
       
+      <Button
+        title="TIPOS DE DOCUMENTOS"
+        onPress={getDocumentType}
+      />
     </View>
   </View>
 }

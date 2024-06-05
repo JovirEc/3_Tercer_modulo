@@ -91,3 +91,9 @@ export const updateFakeProductService = () => {
     .then((response) => response.json())
     .then((json) => console.log(json))
 }
+
+export const getDocumentTypesService = () => {
+    fetch('http://192.168.100.9:8080/inventarios/rest/tiposdocumento/recuperar')
+    .then((response) => response.json())
+    .then((json) => console.log(json))
+}
