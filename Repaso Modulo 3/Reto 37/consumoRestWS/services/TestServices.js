@@ -52,3 +52,21 @@ export const getFakeStoreService = () =>{
     .then((response)=>response.json())
     .then((json)=>console.log(json))
 }
+
+export const createFakeProductService =()=>{
+    const config = {
+        method:'POST',
+        body: JSON.stringify({
+                id:2,
+                title:"Roma",
+                price:12.5,
+                category:"Nice",
+                description:"Handsome",
+                image:"https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+        }),
+        headers:{"Content-Type":"application/json"}
+    }
+    fetch("https://fakestoreapi.com/products",config)
+    .then((response) => response.json())
+    .then((json) => console.log(json))
+}

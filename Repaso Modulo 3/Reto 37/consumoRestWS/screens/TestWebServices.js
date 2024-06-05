@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native'
 import { Button, Text } from '@rneui/base'
-import { getAllPostsService, createPostService, updatePostService, getByUserIdService, getFakeStoreService } from '../services/TestServices'
+import { getAllPostsService, createPostService, updatePostService, getByUserIdService, getFakeStoreService, createFakeProductService } from '../services/TestServices'
 
 const getAllPosts = () => {
   getAllPostsService();
@@ -20,6 +20,10 @@ const getByUserId =() =>{
 
 const getFakeStore =()=>{
   getFakeStoreService()
+}
+
+const createFakeProducto = ()=>{
+  createFakeProductService();
 }
 
 export const TestWebServices = () => {
@@ -53,7 +57,8 @@ export const TestWebServices = () => {
       />
 
       <Button
-        title="YYY"
+        title="CREATE FAKE PRODUCT"
+        onPress={createFakeProducto}
       />
 
       <Button
