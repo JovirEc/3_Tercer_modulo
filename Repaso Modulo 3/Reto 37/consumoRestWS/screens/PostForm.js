@@ -1,7 +1,7 @@
 import { View, StyleSheet, Alert} from 'react-native'
 import { Button, Input, Text } from '@rneui/base'
 import {useState} from 'react'
-import {createPostService} from '../services/TestServices'
+import {addDocumentTypesService, createPostService} from '../services/TestServices'
 export const PostForm = () => {
     const [subject,setSubject]=useState();
     const [message,setMessage]=useState();
@@ -16,6 +16,17 @@ export const PostForm = () => {
         
         );
     }
+
+    const addDocumentType = () => {
+        console.log("Creando tipo de Documento "+subject+" con referencia "+message)
+        addDocumentTypesService({
+            title: subject,
+            body: message
+        },
+        () => { Alert.alert("CONFIRMADO","Su tipo de documento ha sido agregado a la base de datos")}
+        );
+    }
+
     return <View style={styles.container}>
         <View style={styles.textContainer}>
             <Text h4="true">NUEVO MENSAJE</Text>
@@ -37,7 +48,7 @@ export const PostForm = () => {
             />
             <Button 
                 title="Guardar"
-                onPress={createPost}
+                onPress={addDocumentType}
             />
         </View>
 

@@ -6,7 +6,7 @@ export default function App() {
   const StackProducts = createNativeStackNavigator(); 
   return (
     <NavigationContainer>
-      <StackProducts.Navigator initialRouteName='TestWebServicesNav'>
+      <StackProducts.Navigator initialRouteName='PostFormView'>
         <StackProducts.Screen name="TestWebServicesNav"  component={TestWebServices}/>
         <StackProducts.Screen name="PostFormView"  component={PostForm} options={{title: 'MENSAJES'}}/>
       </StackProducts.Navigator>

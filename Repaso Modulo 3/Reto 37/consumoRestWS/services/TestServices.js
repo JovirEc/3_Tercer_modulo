@@ -13,9 +13,7 @@ export const createPostService =(post,fnExito)=>{
             body: post.body,
             userId: 1
         }),
-        headers:{
-            'Content-type':'application/json'
-        }
+        headers:{'Content-type':'application/json'}
     }
 
     fetch('https://jsonplaceholder.typicode.com/posts',config)
@@ -25,6 +23,63 @@ export const createPostService =(post,fnExito)=>{
         fnExito();
     })
 }
+
+export const addDocumentTypesService = (tipoDocumento, fnExito) => {
+    const config = {
+        method: 'POST',
+        body: JSON.stringify({
+            codigo: tipoDocumento.title,
+            descripcion: tipoDocumento.body
+        }),
+        headers: {'Content-Type':'application/json'}
+    }
+
+    fetch('http://192.168.100.9:8080/inventarios2/rest/tiposdocumento/agregar',config)
+    .then((response) => response.json())
+    .then((json) => {
+        console.log(json)
+        fnExito()
+    })
+}
+
+/*export const addDocumentTypesService = (tipoDocumento, fnExito) => {
+    const config = {
+        method: 'POST',
+        body: JSON.stringify({
+            codigo: tipoDocumento.title,
+            descripcion: tipoDocumento.body
+        }),
+        headers: {'Content-Type':'application/json'}
+    }
+
+    fetch('http://192.168.100.9:8080/inventarios2/rest/tiposdocumento/agregar', config)
+        .then((response) => {
+            console.log('Respuesta del servidor:', response);
+            if (!response.ok) {
+                return response.text().then(text => {
+                    console.error('Error en la respuesta del servidor:', text);
+                    throw new Error('Error en la respuesta del servidor');
+                });
+            }
+            return response.text();  // Cambiado a response.text() para depuración
+        })
+        .then((text) => {
+            if (!text) {
+                throw new Error('Respuesta vacía del servidor');
+            }
+            try {
+                const json = JSON.parse(text);
+                console.log('Respuesta JSON:', json);
+                fnExito();
+            } catch (error) {
+                console.error('Error al parsear JSON:', error);
+                throw new Error('Error al parsear JSON');
+            }
+        })
+        .catch((error) => {
+            console.error('Error al procesar la solicitud:', error);
+        });
+}*/
 
 export const updatePostService =()=>{
     const config = {
@@ -97,3 +152,4 @@ export const getDocumentTypesService = () => {
     .then((response) => response.json())
     .then((json) => console.log(json))
 }
+
