@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native'
 import { Button, Text } from '@rneui/base'
-import { getAllPostsService, createPostService, updatePostService } from '../services/TestServices'
+import { getAllPostsService, createPostService, updatePostService, getByUserIdService } from '../services/TestServices'
 
 const getAllPosts = () => {
   getAllPostsService();
@@ -12,6 +12,10 @@ const createPost = () => {
 
 const updatePost = () => {
   updatePostService();
+}
+
+const getByUserId =() =>{
+  getByUserIdService();
 }
 
 export const TestWebServices = () => {
@@ -37,6 +41,7 @@ export const TestWebServices = () => {
       />
         <Button
         title="4. Filtrar"
+        onPress={getByUserId}
       />
           <Button
         title="XXX"
