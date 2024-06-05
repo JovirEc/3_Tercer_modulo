@@ -5,7 +5,7 @@ export const getAllPostsService = () => {
     .then((json) => console.log(json))
 }
 
-export const createPostService =(post)=>{
+export const createPostService =(post,fnExito)=>{
     const config = {
         method: 'POST',
         body: JSON.stringify({
@@ -20,7 +20,10 @@ export const createPostService =(post)=>{
 
     fetch('https://jsonplaceholder.typicode.com/posts',config)
     .then((response)=> response.json())
-    .then((json)=> console.log(json))
+    .then((json)=> {
+        console.log(json)
+        fnExito();
+    })
 }
 
 export const updatePostService =()=>{

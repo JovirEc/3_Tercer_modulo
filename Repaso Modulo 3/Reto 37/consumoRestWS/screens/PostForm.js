@@ -11,7 +11,10 @@ export const PostForm = () => {
         createPostService({
             title: subject,
             body: message
-        });
+        },
+        () => { Alert.alert("CONFIRMACIÓN","Se ha ingresado un nuevo POST")}
+        
+        );
     }
     return <View style={styles.container}>
         <View style={styles.textContainer}>
