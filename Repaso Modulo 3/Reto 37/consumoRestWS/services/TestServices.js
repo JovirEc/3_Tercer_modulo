@@ -5,7 +5,40 @@ export const getAllPostsService = () => {
     .then((json) => console.log(json))
 }
 
-export const createPostService =(post,fnExito)=>{
+export const createPostService = (post, fnExito) => {
+    const config = {
+        method: 'POST',
+        body: JSON.stringify({
+            codigo: post.title,
+            descripcion: post.body,
+        }),
+        headers: { 'Content-type': 'application/json' }
+    }
+
+    fetch('http://192.168.100.9:8080/inventarios2/rest/tiposdocumento/agregar', config)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text(); 
+        })
+        .then((text) => {
+            if (text) {
+                return JSON.parse(text);  
+            }
+            throw new Error('Empty response');
+        })
+        .then((json) => {
+            console.log("Respuesta del servidor:", json);
+            fnExito();
+        })
+        .catch((error) => {
+            fnExito();
+            //console.error("Hubo un problema con la llamada fetch:", error);
+        });
+}
+
+/*export const createPostService =(post,fnExito)=>{
     const config = {
         method: 'POST',
         body: JSON.stringify({
@@ -22,7 +55,7 @@ export const createPostService =(post,fnExito)=>{
         console.log(json)
         fnExito();
     })
-}
+}*/
 
 //ADD DOCUMENT
 /*export const addDocumentTypesService = (tipoDocumento, fnExito) => {

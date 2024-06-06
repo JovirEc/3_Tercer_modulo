@@ -6,23 +6,30 @@ export const PostForm = () => {
     const [subject,setSubject]=useState();
     const [message,setMessage]=useState();
 
-    const createPost=()=>{
+    const fnExito =() =>{
+        console.log("Ejecutando fnExito, mostrando alerta.");
+        Alert.alert("CONFIRMACIÓN", "Se ha ingresado un nuevo POST");
+    }
+
+    const createPost = () => {
+        console.log("creando post " + subject + " " + message);
+        createPostService({
+            title: subject,
+            body: message
+        },()=>{
+            console.log("Ejecutando fnExito, mostrando alerta.");
+            Alert.alert("CONFIRMACIÓN", "Se ha ingresado un nuevo POST");
+        }
+        )
+    }
+
+    /*const createPost=()=>{
         console.log("creando post "+subject+" "+message);
         createPostService({
             title: subject,
             body: message
         },
         () => { Alert.alert("CONFIRMACIÓN","Se ha ingresado un nuevo POST")}
-        );
-    }
-
-    /*const addDocumentType = () => {
-        console.log("Creando tipo de Documento "+subject+" con referencia "+message)
-        addDocumentTypesService({
-            title: subject,
-            body: message
-        },
-        () => { Alert.alert("CONFIRMADO","Su tipo de documento ha sido agregado a la base de datos")}
         );
     }*/
 
