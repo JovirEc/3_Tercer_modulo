@@ -9,14 +9,14 @@ export const createPostService =(post,fnExito)=>{
     const config = {
         method: 'POST',
         body: JSON.stringify({
-            title: post.title,
-            body: post.body,
-            userId: 1
+            codigo: post.title,
+            descripcion: post.body,
+            //userId: 1
         }),
         headers:{'Content-type':'application/json'}
     }
 
-    fetch('https://jsonplaceholder.typicode.com/posts',config)
+    fetch('http://192.168.100.9:8080/inventarios2/rest/tiposdocumento/agregar',config)
     .then((response)=> response.json())
     .then((json)=> {
         console.log(json)
@@ -24,7 +24,8 @@ export const createPostService =(post,fnExito)=>{
     })
 }
 
-export const addDocumentTypesService = (tipoDocumento, fnExito) => {
+//ADD DOCUMENT
+/*export const addDocumentTypesService = (tipoDocumento, fnExito) => {
     const config = {
         method: 'POST',
         body: JSON.stringify({
@@ -40,7 +41,7 @@ export const addDocumentTypesService = (tipoDocumento, fnExito) => {
         console.log(json)
         fnExito()
     })
-}
+}*/
 
 /*export const addDocumentTypesService = (tipoDocumento, fnExito) => {
     const config = {

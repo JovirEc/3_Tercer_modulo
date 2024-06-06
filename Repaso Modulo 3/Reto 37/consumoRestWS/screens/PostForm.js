@@ -13,11 +13,10 @@ export const PostForm = () => {
             body: message
         },
         () => { Alert.alert("CONFIRMACIÓN","Se ha ingresado un nuevo POST")}
-        
         );
     }
 
-    const addDocumentType = () => {
+    /*const addDocumentType = () => {
         console.log("Creando tipo de Documento "+subject+" con referencia "+message)
         addDocumentTypesService({
             title: subject,
@@ -25,7 +24,7 @@ export const PostForm = () => {
         },
         () => { Alert.alert("CONFIRMADO","Su tipo de documento ha sido agregado a la base de datos")}
         );
-    }
+    }*/
 
     return <View style={styles.container}>
         <View style={styles.textContainer}>
@@ -48,7 +47,7 @@ export const PostForm = () => {
             />
             <Button 
                 title="Guardar"
-                onPress={addDocumentType}
+                onPress={createPost}
             />
         </View>
 
